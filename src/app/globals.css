@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #09090b; /* zinc-950 */
+    color: #fafa0b; /* actually we use Tailwind utilities in the body tag */
+  }
+}
