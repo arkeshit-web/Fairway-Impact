@@ -19,6 +19,12 @@ export default async function RootLayout({
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  let role = 'user';
+  if (user) {
+    const { data: profile } = await supabase.from('users').select('role').eq('id', user.id).single();
+    role = profile?.role || 'user';
+  }
+
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen flex flex-col antialiased bg-zinc-950 text-zinc-50 selection:bg-emerald-500/30`}>
@@ -32,6 +38,11 @@ export default async function RootLayout({
             <div className="flex items-center space-x-6">
               {user ? (
                 <>
+                  {role === 'admin' && (
+                    <Link href="/admin" className="text-sm font-bold text-rose-400 hover:text-rose-300 transition-colors">
+                      Admin Center
+                    </Link>
+                  )}
                   <Link href="/dashboard" className="text-sm font-semibold hover:text-emerald-400 transition-colors">
                     Dashboard
                   </Link>
